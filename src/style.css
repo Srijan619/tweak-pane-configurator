@@ -1,0 +1,52 @@
+/* Wrapper container */
+.input-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 50px;
+  border: 2px solid #000; /* Outer margin box */
+}
+
+/* Margin Area (Outermost) */
+.margin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 0, 0.2);
+  border: 2px dashed yellow;
+}
+
+/* Border Area */
+.border {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background-color: rgba(255, 0, 0, 0.2);
+  border: 2px solid red;
+}
+
+/* Padding Area */
+.padding {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  background-color: rgba(0, 255, 0, 0.2);
+  border: 2px dashed green;
+}
+
+/* Content Area */
+.size {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  right: 60px;
+  bottom: 60px;
+  background-color: lightblue;
+  border: 2px solid blue;
+}

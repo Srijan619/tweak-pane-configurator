@@ -24,6 +24,14 @@ expanded: false,
 // buttonRightPadding: "10px",
 // });
 
+
+// Available dynamic configs
+/*
+ *cardContainer: "$TWEAK_CSS_CONFIG_DIV",
+ *title: "$TWEAK_CSS_CONFIG_TEXT",
+ *leftIcon: "$TWEAK_CSS_CONFIG_IMAGE",
+ *rightIconButton: "$TWEAK_CSS_CONFIG_BUTTON"
+*/
 // Get flattened properties
 console.log(tweakpaneInstance.getFlattenedProps());
 ```

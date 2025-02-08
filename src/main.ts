@@ -1,58 +1,19 @@
 import { Pane } from "tweakpane";
-
-// Your dynamic config
-const styles = {
-  cardContainer: {
-    font: "",
-    margin: "1rem",
-    padding: "1rem",
-    border: "",
-    borderRadius: ".4rem",
-    boxShadow:
-      "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
-    color: "",
-    backgroundColor: "",
-    width: "",
-    height: "",
-    minWidth: "",
-    minHeight: "",
-    maxWidth: "",
-    maxHeight: "",
-    text: "",
-    gridColumn: "",
-    gridRow: "",
-    alignSelf: "",
-    textAlign: "",
-    displayKeys: "some some_not",
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr 1fr",
-    gridTemplateRows: "1fr 1fr 1.2fr .3fr 1fr 1fr",
-    gap: "0.5rem .5rem",
-  },
-  buttonRight: {
-    font: "",
-    margin: "",
-    padding: "",
-    border: ".5px solid #3ABBC7",
-    borderRadius: ".5rem",
-    boxShadow: "",
-    color: "#3ABBC7",
-    backgroundColor: "#ffff",
-    width: "",
-    height: "",
-    text: "Reschedule",
-  },
-};
+import { props } from "./propsTest";
+import { FolderApi } from "@tweakpane/core";
+//import { groupProperties } from "./groupProps";
+import { sanitizeCommonCSSProps } from "./commonCSSProps";
 
 // Detects four-sided properties automatically
-const fourSidedProps = ["margin", "padding", "borderWidth"]; // Add more if needed
+const fourSidedProps = ["margin", "padding", "borderWidth"];
 
-const pane = new Pane();
+let pane = new Pane();
 
 // Helper function for four-sided properties
 function createFourSidedControl(folder, obj, propName) {
   const subFolder = folder.addFolder({
     title: propName.charAt(0).toUpperCase() + propName.slice(1),
+    expanded: false,
   });
 
   let value = obj[propName] || "0"; // Default value
@@ -66,21 +27,47 @@ function createFourSidedControl(folder, obj, propName) {
     subFolder.addBinding(obj[propName], side);
   });
 }
+let folders: FolderApi[] = [];
 
-// Iterate over each section dynamically
-Object.entries(styles).forEach(([section, properties]) => {
-  const folder = pane.addFolder({ title: section });
-
-  Object.entries(properties).forEach(([prop, value]) => {
-    if (fourSidedProps.includes(prop)) {
-      createFourSidedControl(folder, styles[section], prop);
+const createPanel = (props: Record<string, any>) => {
+  folders?.forEach((folder) => folder.dispose());
+  folders = [];
+  Object.entries(props).forEach(([section, properties]) => {
+    if (typeof properties === "object") {
+      const folder = pane.addFolder({ title: section, expanded: false });
+      folders.push(folder);
+      Object.entries(properties).forEach(([prop, value]) => {
+        if (fourSidedProps.includes(prop)) {
+          createFourSidedControl(folder, props[section], prop);
+        } else {
+          folder.addBinding(props[section], prop);
+        }
+      });
     } else {
-      folder.addBinding(styles[section], prop);
+      pane.addBinding(props, section);
     }
   });
-});
+};
 
-// Global listener
-pane.on("change", () => {
-  console.log(styles);
+// Sanitize props ...if it is in flatten format like cardContainerMargin...
+createPanel(sanitizeCommonCSSProps(props));
+
+// DEMO EXAMPLE TEST INPUT
+document.getElementById("jsonInput")?.addEventListener("input", function () {
+  const inputValue = this.value;
+  const messageEl = document.getElementById("message");
+  console.log("JSON input", inputValue);
+  try {
+    createPanel(sanitizeCommonCSSProps(JSON.parse(inputValue)));
+    if (messageEl) {
+      messageEl.textContent = "";
+    }
+  } catch (error) {
+    // If JSON is invalid, you can handle the error here
+    console.error("Invalid JSON:", error);
+
+    if (messageEl) {
+      messageEl.textContent = "Invalid JSON:";
+    }
+  }
 });

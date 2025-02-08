@@ -1,8 +1,9 @@
 import { Pane } from "tweakpane";
-import { props } from "./propsTest";
+import { props } from "./props";
 import { FolderApi } from "@tweakpane/core";
 //import { groupProperties } from "./groupProps";
 import { sanitizeCommonCSSProps } from "./commonCSSProps";
+import { flattenProps } from "./flattenProps";
 
 // Detects four-sided properties automatically
 const fourSidedProps = ["margin", "padding", "borderWidth"];
@@ -50,7 +51,8 @@ const createPanel = (props: Record<string, any>) => {
 };
 
 // Sanitize props ...if it is in flatten format like cardContainerMargin...
-createPanel(sanitizeCommonCSSProps(props));
+let sanitizedProps = sanitizeCommonCSSProps(props);
+createPanel(sanitizedProps);
 
 // DEMO EXAMPLE TEST INPUT
 document.getElementById("jsonInput")?.addEventListener("input", function () {
@@ -58,7 +60,8 @@ document.getElementById("jsonInput")?.addEventListener("input", function () {
   const messageEl = document.getElementById("message");
   console.log("JSON input", inputValue);
   try {
-    createPanel(sanitizeCommonCSSProps(JSON.parse(inputValue)));
+    sanitizedProps = sanitizeCommonCSSProps(JSON.parse(inputValue));
+    createPanel(sanitizedProps);
     if (messageEl) {
       messageEl.textContent = "";
     }
@@ -70,4 +73,9 @@ document.getElementById("jsonInput")?.addEventListener("input", function () {
       messageEl.textContent = "Invalid JSON:";
     }
   }
+});
+
+pane.on("change", () => {
+  console.log("Normal input config: ", sanitizedProps);
+  console.log("Flatten input config: ", flattenProps(sanitizedProps));
 });

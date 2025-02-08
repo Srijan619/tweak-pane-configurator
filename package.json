@@ -1,20 +1,43 @@
 {
-  "name": "my-tweakpane-project",
-  "private": true,
-  "version": "0.0.0",
+  "name": "tweakpane-configurator",
+  "version": "1.0.2",
+  "description": "A configurable wrapper for Tweakpane",
   "type": "module",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "pnpm run build && gh-pages -d dist"
+    "deploy": "pnpm run build && gh-pages -d dist",
+    "prepublishOnly": "pnpm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "tweakpane",
+    "vite",
+    "configurator"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "tweakpane": "^4.0.5"
   },
   "devDependencies": {
     "@tweakpane/core": "^2.0.5",
-    "vite": "^6.1.0"
-  },
-  "dependencies": {
+    "vite": "^6.1.0",
     "gh-pages": "^6.3.0",
-    "tweakpane": "^4.0.5"
+    "typescript": "^5.0.0",
+    "tsup": "^7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

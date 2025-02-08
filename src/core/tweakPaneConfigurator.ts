@@ -10,6 +10,7 @@ export interface PanelConfig {
   props: Record<string, any>;
   showJsonInput?: boolean;
   expanded?: boolean;
+  restructureProps?: boolean;
 }
 
 export class TweakpaneConfig {
@@ -22,8 +23,11 @@ export class TweakpaneConfig {
   constructor(config: PanelConfig) {
     this.pane = new Pane();
     this.config = config;
+    this.config.restructureProps = config.props.restructureProps || true;
     this.props = config.props;
-    this.sanitizedProps = sanitizeCommonCSSProps(this.props);
+    this.sanitizedProps = config.restructureProps
+      ? sanitizeCommonCSSProps(this.props)
+      : this.props;
 
     this.createPanel(this.sanitizedProps);
 
@@ -37,8 +41,8 @@ export class TweakpaneConfig {
     });
   }
 
-  private createPanel(props: Record<string, any>) {
-    this.clearFolders();
+  private createPanel(props: Record<string, any>, parentFolder: any = null) {
+    if (!parentFolder) this.clearFolders(); // Cleanup before creating new panel
     Object.entries(props).forEach(([section, properties]) => {
       if (typeof properties === "object") {
         const folder = this.pane.addFolder({
@@ -47,6 +51,15 @@ export class TweakpaneConfig {
         });
         this.folders.push(folder);
         Object.entries(properties).forEach(([prop, value]) => {
+          if (value && typeof value === "object") {
+            //parentFolder?.addBinding(value, prop);
+            const newFolder = folder.addFolder({
+              title: prop,
+              expanded: this.config.expanded ?? false,
+            });
+            this.createPanel(value, newFolder);
+            return;
+          }
           if (fourSidedProps.includes(prop)) {
             this.createFourSidedControl(folder, props[section], prop);
           } else {
@@ -54,7 +67,11 @@ export class TweakpaneConfig {
           }
         });
       } else {
-        this.pane.addBinding(props, section);
+        if (parentFolder) {
+          parentFolder.addBinding(props, section);
+        } else {
+          this.pane.addBinding(props, section);
+        }
       }
     });
   }

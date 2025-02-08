@@ -1,4 +1,5 @@
-//TODO: This is obsolete
+import { autoPropsGeneratorPlugin } from "../data/propsMappings";
+
 type CSSMatch = {
   prefix: string;
   cssPropName: string;
@@ -109,6 +110,8 @@ export const sanitizeCommonCSSProps = (props: Record<string, any>) => {
 
   Object.entries(props).forEach(([key, value]) => {
     if (typeof value === "object") return (structuredProps[key] = value); // do not do anything for objects i.e props probably already structured
+    if (typeof value === "string" && value.startsWith("$TWEAK_CSS_CONFIG"))
+      return (structuredProps[key] = autoPropsGeneratorPlugin(value));
     const result = extractCSSProperty(key);
 
     if (
@@ -119,6 +122,10 @@ export const sanitizeCommonCSSProps = (props: Record<string, any>) => {
     ) {
       // Ensure result is a valid CSSMatch
       const { prefix, cssPropName } = result;
+      if (structuredProps[prefix]) {
+        structuredProps[prefix] = value;
+        return;
+      }
 
       if (!structuredProps[prefix]) {
         structuredProps[prefix] = {};

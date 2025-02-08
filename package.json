@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "pnpm run build && gh-pages -d dist"
   },
   "devDependencies": {
     "@tweakpane/core": "^2.0.5",
     "vite": "^6.1.0"
   },
   "dependencies": {
+    "gh-pages": "^6.3.0",
     "tweakpane": "^4.0.5"
   }
 }

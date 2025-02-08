@@ -19,3 +19,28 @@ export function flattenProps(obj: any, prefix: string = ""): FlattenedProps {
 
   return result;
 }
+
+let firstPrefix = "";
+
+export function flattenPropsFirstAndLastKey(
+  obj: any,
+  prefix: string = "",
+): FlattenedProps {
+  let result: FlattenedProps = {};
+
+  if (!firstPrefix) firstPrefix = Object.keys(obj)[0];
+  Object.entries(obj).forEach(([key, value]) => {
+    const newPrefix = prefix ? `${prefix}` : key;
+
+    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      // Recursively flatten, passing the first key as the prefix for the next level
+      Object.assign(result, flattenPropsFirstAndLastKey(value, newPrefix));
+    } else {
+      // Add the flattened key-value pair with first and last keys
+      result[`${newPrefix}${key.charAt(0).toUpperCase() + key.slice(1)}`] =
+        value;
+    }
+  });
+
+  return result;
+}

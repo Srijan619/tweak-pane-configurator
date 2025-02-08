@@ -2,6 +2,10 @@ const layoutAndBoxModelProps = {
   display: "block",
   width: "100%",
   height: "auto",
+  maxWidth: "100%",
+  minWidth: "100%",
+  minHeight: "100%",
+  maxHeight: "100%",
   padding: "0",
   margin: "0",
   border: "1px solid transparent",
@@ -69,7 +73,31 @@ const textLayoutProps = {
   wordBreak: "normal",
 };
 
-const propsMapping = {
+// Common properties for button and img
+const commonProps = {
+  layoutAndBoxModel: layoutAndBoxModelProps,
+  positioning: positioningProps,
+  backgroundAndColor: backgroundAndColorProps,
+  typography: typographyProps,
+  flexAndGrid: flexAndGridProps,
+  other: otherProps,
+};
+
+// img specific properties
+const imgProps = {
+  ...commonProps,
+  objectFit: "contain",
+  objectPosition: "center center",
+};
+
+// button specific properties
+const buttonProps = {
+  ...commonProps,
+  fontAndTextStyling: fontAndTextStylingProps,
+  cursor: "pointer",
+};
+
+const propsMapping: Record<string, any> = {
   div: {
     layoutAndBoxModel: layoutAndBoxModelProps,
     positioning: positioningProps,
@@ -83,6 +111,8 @@ const propsMapping = {
     textLayout: textLayoutProps,
     backgroundAndColor: backgroundAndColorProps,
   },
+  image: imgProps,
+  button: buttonProps,
 } as const;
 
 export const autoPropsGeneratorPlugin = (key: string) => {

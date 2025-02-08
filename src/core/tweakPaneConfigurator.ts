@@ -1,7 +1,7 @@
 import { Pane } from "tweakpane";
 import { FolderApi } from "@tweakpane/core";
 import { sanitizeCommonCSSProps } from "./commonCSSProps";
-import { flattenProps } from "./flattenProps";
+import { flattenPropsFirstAndLastKey } from "./flattenProps";
 
 // Default four-sided properties handling (e.g., margin, padding)
 const fourSidedProps = ["margin", "padding", "borderWidth"];
@@ -37,13 +37,18 @@ export class TweakpaneConfig {
 
     this.pane.on("change", () => {
       console.log("Normal input config: ", this.sanitizedProps);
-      console.log("Flatten input config: ", flattenProps(this.sanitizedProps));
+      console.log(
+        "Flatten input config: ",
+        flattenPropsFirstAndLastKey(this.sanitizedProps),
+      );
     });
   }
 
   private createPanel(props: Record<string, any>, parentFolder: any = null) {
     if (!parentFolder) this.clearFolders(); // Cleanup before creating new panel
     Object.entries(props).forEach(([section, properties]) => {
+      if (!properties) props[section] = ""; // If for some reason value is undefined... set empty string
+
       if (typeof properties === "object") {
         const folder = this.pane.addFolder({
           title: section,
@@ -82,12 +87,15 @@ export class TweakpaneConfig {
     propName: string,
   ) {
     const subFolder = folder.addFolder({
-      title: propName.charAt(0).toUpperCase() + propName.slice(1),
+      title: propName.charAt(0) + propName.slice(1),
       expanded: false,
     });
 
     let value = obj[propName] || "0";
-    if (typeof value === "string" && !value.includes(" ")) {
+    if (
+      (typeof value === "string" && !value.includes(" ")) ||
+      typeof value === "number"
+    ) {
       obj[propName] = { top: value, bottom: value, left: value, right: value };
     }
 
@@ -136,6 +144,6 @@ export class TweakpaneConfig {
   }
 
   public getFlattenedProps() {
-    return flattenProps(this.sanitizedProps);
+    return flattenPropsFirstAndLastKey(this.sanitizedProps);
   }
 }

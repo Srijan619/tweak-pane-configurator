@@ -32,6 +32,11 @@ export function flattenPropsFirstAndLastKey(
   Object.entries(obj).forEach(([key, value]) => {
     const newPrefix = prefix ? `${prefix}` : key;
 
+    if (typeof value === "string" && firstPrefix === newPrefix) {
+      // No op for string that does not have any nested object
+      result[key] = value;
+      return;
+    }
     if (typeof value === "object" && value !== null && !Array.isArray(value)) {
       // Recursively flatten, passing the first key as the prefix for the next level
       Object.assign(result, flattenPropsFirstAndLastKey(value, newPrefix));

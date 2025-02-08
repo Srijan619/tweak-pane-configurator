@@ -1,6 +1,6 @@
 _Welcome to TweakPane Configurator_
 
-\*\* Convert any JSON config to panel and fits more perfectly for CSS attributes..
+**Convert any JSON config to panel and fits more perfectly for CSS attributes..**
 
 Example:
 

@@ -4,7 +4,7 @@ import { sanitizeCommonCSSProps } from "./commonCSSProps";
 import { flattenPropsFirstAndLastKey } from "./flattenProps";
 
 // Default four-sided properties handling (e.g., margin, padding)
-const fourSidedProps = ["margin", "padding", "borderWidth"];
+export const fourSidedProps = ["margin", "padding", "borderWidth"];
 
 export interface PanelConfig {
   props: Record<string, any>;

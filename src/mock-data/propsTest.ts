@@ -2,13 +2,12 @@ const props = {
   // buttonRightColor: "#ffff",
   // buttonRightIconColorAasd: "#ffff",
   // ansThisIsSdSadARandom: "asd",
-  ansAd: "sd",
+  dataSourceId: "sd",
+  dataSourceKey: "SomethingElse",
   buttonRight: {
-    font: {
-      size: 14,
-      weight: 400,
-      family: "Poppings",
-    },
+    // fontSize: 14,
+    // fontWeight: 400,
+    // fontFamily: "Poppings",
     margin: 1,
   },
   //cardContainer: "$TWEAK_CSS_CONFIG_DIV",

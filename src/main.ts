@@ -4,7 +4,7 @@ import { props } from "./mock-data/props";
 // Example on how to use
 const tweakpaneInstance = new TweakpaneConfig({
   props,
-  showJsonInput: true,
+  showJsonInput: false,
   expanded: false,
 });
 

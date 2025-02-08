@@ -28,7 +28,7 @@ export class TweakpaneConfig {
     this.createPanel(this.sanitizedProps);
 
     if (config.showJsonInput) {
-      this.setupJsonInput();
+      this.createJsonInput();
     }
 
     this.pane.on("change", () => {
@@ -79,18 +79,31 @@ export class TweakpaneConfig {
     });
   }
 
-  private setupJsonInput() {
-    document.getElementById("jsonInput")?.addEventListener("input", (event) => {
-      const inputValue = (event.target as HTMLInputElement).value;
-      const messageEl = document.getElementById("message");
+  private createJsonInput() {
+    const appContainer = document.createElement("div");
+    appContainer.id = "app";
+    document.body.appendChild(appContainer);
 
+    const messageLabel = document.createElement("label");
+    messageLabel.id = "message";
+    appContainer.appendChild(messageLabel);
+
+    const jsonInput = document.createElement("textarea");
+    jsonInput.id = "jsonInput";
+    jsonInput.rows = 10;
+    jsonInput.cols = 50;
+    jsonInput.placeholder = "Paste test JSON config here";
+    appContainer.appendChild(jsonInput);
+
+    jsonInput.addEventListener("input", (event) => {
       try {
-        this.sanitizedProps = sanitizeCommonCSSProps(JSON.parse(inputValue));
-        this.createPanel(this.sanitizedProps);
-        if (messageEl) messageEl.textContent = "";
+        const inputValue = (event.target as HTMLTextAreaElement).value;
+        this.props = sanitizeCommonCSSProps(JSON.parse(inputValue));
+        this.createPanel(this.props);
+        messageLabel.textContent = "";
       } catch (error) {
         console.error("Invalid JSON:", error);
-        if (messageEl) messageEl.textContent = "Invalid JSON";
+        messageLabel.textContent = "Invalid JSON!";
       }
     });
   }

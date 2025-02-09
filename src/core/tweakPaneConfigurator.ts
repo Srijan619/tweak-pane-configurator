@@ -1,6 +1,6 @@
 import { Pane } from "tweakpane";
 import { FolderApi } from "@tweakpane/core";
-import { sanitizeCommonCSSProps } from "./commonCSSProps";
+import { sanitizeAndExtractCommonCSSProps } from "./commonCSSProps";
 import { flattenPropsFirstAndLastKey } from "./flattenProps";
 
 // Default four-sided properties handling (e.g., margin, padding)
@@ -26,7 +26,7 @@ export class TweakpaneConfig {
     this.config.restructureProps = config.props.restructureProps || true;
     this.props = config.props;
     this.sanitizedProps = config.restructureProps
-      ? sanitizeCommonCSSProps(this.props)
+      ? sanitizeAndExtractCommonCSSProps(this.props)
       : this.props;
 
     this.createPanel(this.sanitizedProps);
@@ -123,7 +123,7 @@ export class TweakpaneConfig {
     jsonInput.addEventListener("input", (event) => {
       try {
         const inputValue = (event.target as HTMLTextAreaElement).value;
-        this.props = sanitizeCommonCSSProps(JSON.parse(inputValue));
+        this.props = sanitizeAndExtractCommonCSSProps(JSON.parse(inputValue));
         this.createPanel(this.props);
         messageLabel.textContent = "";
       } catch (error) {
@@ -139,7 +139,7 @@ export class TweakpaneConfig {
   }
 
   public updateProps(newProps: Record<string, any>) {
-    this.sanitizedProps = sanitizeCommonCSSProps(newProps);
+    this.sanitizedProps = sanitizeAndExtractCommonCSSProps(newProps);
     this.createPanel(this.sanitizedProps);
   }
 

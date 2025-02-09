@@ -35,12 +35,6 @@ export function flattenPropsFirstAndLastKey(
     const newPrefix = prefix ? `${prefix}` : key;
 
     if (!firstPrefix) firstPrefix = key;
-    if (typeof value === "string" && firstPrefix === newPrefix) {
-      // No op for string that does not have any nested object
-      result[key] = value;
-      firstPrefix = "";
-      return;
-    }
 
     if (fourSidedProps.includes(key)) {
       // Exceptionally for four sided props, we should take the second last keys too..

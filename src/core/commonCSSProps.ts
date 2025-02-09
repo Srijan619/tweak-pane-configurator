@@ -79,34 +79,36 @@ const commonCSSProps = [
   "boxDecorationBreak",
 ];
 
-export const sanitizeCommonCSSProps = (props: Record<string, any>) => {
-  let structuredProps = {};
+export function extractCSSProperty(key: string): CSSMatch | string {
+  let matches: CSSMatch[] = [];
 
-  function extractCSSProperty(key: string): CSSMatch | string {
-    let matches: CSSMatch[] = [];
+  for (let cssProp of commonCSSProps) {
+    const lowerCaseCssProp = cssProp.toLowerCase();
+    if (key.toLowerCase().endsWith(lowerCaseCssProp)) {
+      const prefix = key.slice(0, key.length - cssProp.length); // Get the prefix part
+      const cssPropName = cssProp.charAt(0).toLowerCase() + cssProp.slice(1); // Convert to camelCase
 
-    for (let cssProp of commonCSSProps) {
-      cssProp = cssProp.toLowerCase();
-      if (key.toLowerCase().endsWith(cssProp)) {
-        const prefix = key.slice(0, key.length - cssProp.length); // Get the prefix part
-        const cssPropName = cssProp.charAt(0).toLowerCase() + cssProp.slice(1); // Convert to camelCase
-
-        // Store the matches with their lengths
-        matches.push({ prefix, cssPropName, matchLength: cssProp.length });
-      }
+      // Store the matches with their lengths
+      matches.push({ prefix, cssPropName, matchLength: cssProp.length });
     }
-
-    // If there are multiple matches, return the one with the longest match length eg..(maxWidth and width...we take the one that matches most)
-    if (matches.length > 0) {
-      // Sort by the match length in descending order and pick the first match
-      matches.sort((a, b) => b.matchLength - a.matchLength);
-      return matches[0]; // Return the match with the longest match length
-    } else {
-      // If does not matches to css prop but we can still group it in this prefix..
-    }
-
-    return key; // Return as it is if not found
   }
+
+  // If there are multiple matches, return the one with the longest match length eg..(maxWidth and width...we take the one that matches most)
+  if (matches.length > 0) {
+    // Sort by the match length in descending order and pick the first match
+    matches.sort((a, b) => b.matchLength - a.matchLength);
+    return matches[0]; // Return the match with the longest match length
+  } else {
+    // If does not matches to css prop but we can still group it in this prefix..
+  }
+
+  return key; // Return as it is if not found
+}
+
+export const sanitizeAndExtractCommonCSSProps = (
+  props: Record<string, any>,
+) => {
+  let structuredProps = {};
 
   Object.entries(props).forEach(([key, value]) => {
     if (typeof value === "object") return (structuredProps[key] = value); // do not do anything for objects i.e props probably already structured
@@ -138,6 +140,5 @@ export const sanitizeCommonCSSProps = (props: Record<string, any>) => {
     }
   });
 
-  console.log("Sanitized props..", structuredProps);
   return structuredProps;
 };

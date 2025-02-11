@@ -1,6 +1,6 @@
 {
   "name": "tweakpane-configurator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A configurable wrapper for Tweakpane",
   "type": "module",
   "main": "dist/index.umd.js",

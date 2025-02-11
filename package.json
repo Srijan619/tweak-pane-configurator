@@ -45,10 +45,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "pnpm": {
-    "overrides": {
-      "plugin-tweakpane-quad-border": "link:../../Library/pnpm/global/5/node_modules/plugin-tweakpane-quad-border"
-    }
   }
 }

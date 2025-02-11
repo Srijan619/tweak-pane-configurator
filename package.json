@@ -1,6 +1,6 @@
 {
   "name": "tweakpane-configurator",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "A configurable wrapper for Tweakpane",
   "type": "module",
   "main": "dist/index.umd.js",
@@ -31,7 +31,6 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
-    "plugin-tweakpane-quad-border": "link:../../Library/pnpm/global/5/node_modules/plugin-tweakpane-quad-border",
     "tweakpane": "^4.0.5"
   },
   "devDependencies": {

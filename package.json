@@ -33,6 +33,10 @@
   "dependencies": {
     "tweakpane": "^4.0.5"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Srijan619/tweak-pane-configurator"
+  },
   "devDependencies": {
     "@tweakpane/core": "^2.0.5",
     "@vitest/coverage-v8": "3.0.5",

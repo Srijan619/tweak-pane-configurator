@@ -37,7 +37,7 @@ export class TweakpaneConfig {
       this.createJsonInput();
     }
 
-    this.pane.on("change", () => {
+    this.pane.on("change", (e) => {
       console.log("Normal input config: ", this.sanitizedProps);
       console.log(
         "Flatten input config: ",

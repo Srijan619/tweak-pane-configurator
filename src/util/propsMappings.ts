@@ -117,5 +117,5 @@ const propsMapping: Record<string, any> = {
 
 export const autoPropsGeneratorPlugin = (key: string) => {
   const type = key.split("$TWEAK_CSS_CONFIG_")[1]?.toLowerCase();
-  return propsMapping[type];
+  return propsMapping[type] ? structuredClone(propsMapping[type]) : undefined;
 };

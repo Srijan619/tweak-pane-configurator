@@ -1,4 +1,4 @@
-import { autoPropsGeneratorPlugin } from "../data/propsMappings";
+import { autoPropsGeneratorPlugin } from "../util/propsMappings";
 
 type CSSMatch = {
   prefix: string;

@@ -2,7 +2,7 @@ import { Pane } from "tweakpane";
 import { FolderApi } from "@tweakpane/core";
 import { sanitizeAndExtractCommonCSSProps } from "./commonCSSProps";
 import { flattenPropsFirstAndLastKey } from "./flattenProps";
-import QuadValuesBladePluginBundle from "../../node_modules/plugin-tweakpane-quad-border/src/index";
+//import QuadValuesBladePluginBundle from "../../node_modules/plugin-tweakpane-quad-border/src/index";
 
 // Default four-sided properties handling (e.g., margin, padding)
 export const fourSidedProps = ["margin", "padding", "borderWidth"];
@@ -23,7 +23,7 @@ export class TweakpaneConfig {
 
   constructor(config: PanelConfig) {
     this.pane = new Pane();
-    this.pane.registerPlugin(QuadValuesBladePluginBundle);
+    // this.pane.registerPlugin(QuadValuesBladePluginBundle);
     this.config = config;
     this.config.restructureProps = config.props.restructureProps || true;
     this.props = config.props;

@@ -1,8 +1,18 @@
 const props = {
-  buttonRightBackgroundColor: "#ffff",
+  //buttonRightBackgroundColor: "#ffff",
   // buttonRightIconColorAasd: "#ffff",
   // ansThisIsSdSadARandom: "asd",
-  dataSourceId: "sd",
+  // dataSourceId: "sd",
+  margin: {
+    values: {
+      left: 20,
+      assd: 30,
+      srandom: 40,
+      top: 100,
+    },
+    view: "quadvalues",
+    label: "Quad Values",
+  },
   // dataSourceKey: "SomethingElse",
   // buttonRight: {
   // fontSize: 14,

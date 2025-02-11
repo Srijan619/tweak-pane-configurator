@@ -17,7 +17,8 @@
     "prebuild": "vitest --run",
     "deploy": "pnpm run build && gh-pages -d dist",
     "prepublishOnly": "pnpm run build",
-    "test": "vitest"
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
   },
   "files": [
     "dist"
@@ -30,10 +31,12 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
+    "plugin-tweakpane-quad-border": "link:../../Library/pnpm/global/5/node_modules/plugin-tweakpane-quad-border",
     "tweakpane": "^4.0.5"
   },
   "devDependencies": {
     "@tweakpane/core": "^2.0.5",
+    "@vitest/coverage-v8": "3.0.5",
     "gh-pages": "^6.3.0",
     "tsup": "^7.0.0",
     "typescript": "^5.0.0",
@@ -42,5 +45,10 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "pnpm": {
+    "overrides": {
+      "plugin-tweakpane-quad-border": "link:../../Library/pnpm/global/5/node_modules/plugin-tweakpane-quad-border"
+    }
   }
 }

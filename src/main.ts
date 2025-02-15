@@ -2,7 +2,12 @@ import { TweakpaneConfig } from "./core/tweakPaneConfigurator";
 import { props } from "./mock-data/propsTest";
 
 // Example on how to use
+const container = document.createElement("div");
+container.style.width = "2rem";
+container.style.height = "2rem";
+
 const tweakpaneInstance = new TweakpaneConfig({
+  container,
   props,
   showJsonInput: false,
   expanded: false,
@@ -10,6 +15,7 @@ const tweakpaneInstance = new TweakpaneConfig({
   // restructureProps: true,
 });
 
+document.body.appendChild(container);
 // Update props dynamically
 // tweakpaneInstance.updateProps({
 //   buttonRightColor: "#ff0000",

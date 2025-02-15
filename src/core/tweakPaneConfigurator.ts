@@ -8,6 +8,7 @@ import { flattenPropsFirstAndLastKey } from "./flattenProps";
 export const fourSidedProps = ["margin", "padding", "borderWidth"];
 
 export interface PanelConfig {
+  container?: HTMLElement;
   props: Record<string, any>;
   showJsonInput?: boolean;
   expanded?: boolean;
@@ -22,7 +23,7 @@ export class TweakpaneConfig {
   private config: PanelConfig;
 
   constructor(config: PanelConfig) {
-    this.pane = new Pane();
+    this.pane = new Pane({ container: config.container });
     // this.pane.registerPlugin(QuadValuesBladePluginBundle);
     this.config = config;
     this.config.restructureProps = config.props.restructureProps || true;
